@@ -29,6 +29,9 @@ class _SwitcherState extends State<Switcher> {
   }
 
   Widget bothPanels(BuildContext context, BoxConstraints constraints) {
+    String imagePath = "assets/active.jpg";
+    String cardText = "Active Campaigns";
+    Function tapFunction = () {};
     return Container(
       child: Stack(
         children: <Widget>[
@@ -52,19 +55,19 @@ class _SwitcherState extends State<Switcher> {
                       children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          
                           children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(left: 25),
                             ),
                             Text("Hello,",
                                 style: TextStyle(
-                                    fontSize: 30, fontStyle: FontStyle.normal, fontWeight: FontWeight.w300)),
+                                    fontSize: 30,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w300)),
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-
                           children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(left: 25),
@@ -72,7 +75,8 @@ class _SwitcherState extends State<Switcher> {
                             Text(
                               "Ayush Shekhar",
                               style: TextStyle(
-                                  fontSize: 35,),
+                                fontSize: 35,
+                              ),
                             ),
                           ],
                         ),
@@ -87,99 +91,45 @@ class _SwitcherState extends State<Switcher> {
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 15),
                   ),
-                  //Todo: Add 4 cards to show campaigns Active, completed, incomplete, browse
+                  //Todo: Add 4 cards to show campaigns Active, upcoming, complete, browse
 
                   //First Row of Cards
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      // Padding(
-                      //   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                      // ),
-                      Material(
-                        color: Colors.green,
-                        elevation: 5,
-                        borderRadius: BorderRadius.circular(4),
-                        child: Container(
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                height: 190,
-                                width: 190,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      "Active Campaigns ",
-                                      style: TextStyle(fontSize: 15),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      new DashboardCard(
+                          tapFunction: tapFunction,
+                          imagePath: imagePath,
+                          cardText: cardText),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
                       ),
-                      // Padding(
-                      //   padding: EdgeInsets.symmetric(horizontal:8),
-                      // ),
-                      Material(
-                        color: Colors.blue,
-                        elevation: 5,
-                        borderRadius: BorderRadius.circular(4),
-                        child: Container(
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                height: 190,
-                                width: 190,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      DashboardCard(
+                          tapFunction: tapFunction,
+                          imagePath: 'assets/upcoming.jpg',
+                          cardText: 'Upcoming Campaigns'),
                     ],
                   ),
 
                   SizedBox(
-                    height: 30,
+                    height: 40,
                   ),
-                  
 
                   //Second Row of Cards
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Material(
-                        color: Colors.deepPurple,
-                        elevation: 5,
-                        borderRadius: BorderRadius.circular(4),
-                        child: Container(
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                height: 190,
-                                width: 190,
-                              ),
-                            ],
-                          ),
-                        ),
+                      DashboardCard(
+                          tapFunction: tapFunction,
+                          imagePath: 'assets/complete.jpg',
+                          cardText: 'Completed Campaigns'),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
                       ),
-                      Material(
-                        color: Colors.lime,
-                        elevation: 5,
-                        borderRadius: BorderRadius.circular(4),
-                        child: Container(
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                height: 190,
-                                width: 190,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      DashboardCard(
+                          tapFunction: tapFunction,
+                          imagePath: 'assets/browse.jpg',
+                          cardText: 'Browse Campaigns'),
                     ],
                   )
                 ],
@@ -195,6 +145,89 @@ class _SwitcherState extends State<Switcher> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: bothPanels,
+    );
+  }
+}
+
+class DashboardCard extends StatelessWidget {
+  const DashboardCard({
+    Key key,
+    @required this.tapFunction,
+    @required this.imagePath,
+    @required this.cardText,
+  }) : super(key: key);
+
+  final Function tapFunction;
+  final String imagePath;
+  final String cardText;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: tapFunction,
+      child: Material(
+        elevation: 5,
+        borderRadius: BorderRadius.circular(7),
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Stack(
+                children: <Widget>[
+                  Container(
+                      height: 160,
+                      width: 160,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7),
+                        image: DecorationImage(
+                          image: AssetImage(imagePath),
+                          fit: BoxFit.cover
+                          
+                        )
+                      ),
+                      // child: Image.asset(imagePath,
+                      //     height: 160, fit: BoxFit.cover)
+                          ),
+                  Container(
+                    
+                    height: 160,
+                    width: 160,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      color: Colors.black38
+                    ),
+
+                  ),
+                  Container(
+                    height: 160,
+                    width: 160,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            cardText,
+                            style: TextStyle(fontSize: 28, color: Colors.white),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.bottomRight,
+                          padding: EdgeInsets.only(right: 8),
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
