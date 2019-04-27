@@ -91,9 +91,7 @@ class _SwitcherState extends State<Switcher> {
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 15),
                   ),
-                  //Todo: Add 4 cards to show campaigns Active, upcoming, complete, browse
-
-                  //First Row of Cards
+                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -184,8 +182,7 @@ class DashboardCard extends StatelessWidget {
                           
                         )
                       ),
-                      // child: Image.asset(imagePath,
-                      //     height: 160, fit: BoxFit.cover)
+                      
                           ),
                   Container(
                     

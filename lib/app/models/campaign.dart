@@ -28,6 +28,7 @@ class Campaign {
   @required List<String> actions;
   @required String chatId;
   @required List<String> comments;
+  @required List<String> images;
 
   Campaign(
     this.id,
@@ -42,6 +43,7 @@ class Campaign {
     this.actions,
     this.chatId,
     this.comments,
+    this.images
   );
 
   Campaign.fromMap(Map<String, dynamic> map) {
@@ -58,6 +60,7 @@ class Campaign {
     actions = map['actions'];
     chatId = map['chatId'];
     comments = map['comments'];
+    images = map['images'];
   }
 
   Map<String, dynamic> toMap() {
@@ -74,6 +77,7 @@ class Campaign {
     map['actions'] = actions;
     map['chatId'] = chatId;
     map['comments'] = comments;
+    map['images'] = images;
     return map;
   }
 }
