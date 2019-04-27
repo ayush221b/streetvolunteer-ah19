@@ -41,11 +41,147 @@ class _SwitcherState extends State<Switcher> {
                   topLeft: Radius.circular(16.0),
                   topRight: Radius.circular(16.0)),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Container(
                     height: header_height,
                   ),
+
+                  Container(
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(left: 25),
+                            ),
+                            Text("Hello,",
+                                style: TextStyle(
+                                    fontSize: 30, fontStyle: FontStyle.normal, fontWeight: FontWeight.w300)),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(left: 25),
+                            ),
+                            Text(
+                              "Ayush Shekhar",
+                              style: TextStyle(
+                                  fontSize: 35,),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Padding(
+                    padding: EdgeInsetsDirectional.only(top: 15),
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 15),
+                  ),
+                  //Todo: Add 4 cards to show campaigns Active, completed, incomplete, browse
+
+                  //First Row of Cards
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      // Padding(
+                      //   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      // ),
+                      Material(
+                        color: Colors.green,
+                        elevation: 5,
+                        borderRadius: BorderRadius.circular(4),
+                        child: Container(
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                height: 190,
+                                width: 190,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "Active Campaigns ",
+                                      style: TextStyle(fontSize: 15),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.symmetric(horizontal:8),
+                      // ),
+                      Material(
+                        color: Colors.blue,
+                        elevation: 5,
+                        borderRadius: BorderRadius.circular(4),
+                        child: Container(
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                height: 190,
+                                width: 190,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(
+                    height: 30,
+                  ),
                   
+
+                  //Second Row of Cards
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Material(
+                        color: Colors.deepPurple,
+                        elevation: 5,
+                        borderRadius: BorderRadius.circular(4),
+                        child: Container(
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                height: 190,
+                                width: 190,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Material(
+                        color: Colors.lime,
+                        elevation: 5,
+                        borderRadius: BorderRadius.circular(4),
+                        child: Container(
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                height: 190,
+                                width: 190,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
