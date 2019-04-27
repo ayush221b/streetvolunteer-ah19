@@ -20,6 +20,7 @@ class Campaign {
   @required String title;
   @required String description;
   @required String status;
+  @required String category;
   @required String creatorId;
   @required List<String> volunteers;
   @required Map<String, double> location;
