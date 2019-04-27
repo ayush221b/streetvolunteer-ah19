@@ -18,7 +18,10 @@ class _StreetVolunteerState extends State<StreetVolunteer> {
         title: 'StreetVolunteer',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.teal,
+
+          primaryColor: Color(0xFF014656), 
+
+          
         ),
         initialRoute: '/',
         routes: {'/': (context) => Dashboard(model: _model)},

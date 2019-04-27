@@ -55,6 +55,7 @@ class _DashboardState extends State<Dashboard>
         elevation: 4.0,
         icon: const Icon(Icons.add),
         label: const Text('Add Campaign'),
+        backgroundColor: Color(0xFF00a2ad),
         onPressed: () {},
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
