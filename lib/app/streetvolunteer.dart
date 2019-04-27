@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:streetvolunteer_ah19/app/pages/dashboard.dart';
 import 'package:streetvolunteer_ah19/app/scoped_models/main.dart';
-import 'package:streetvolunteer_ah19/app/widgets/campaigns.dart';
 
 class StreetVolunteer extends StatefulWidget {
   @override
@@ -25,8 +24,8 @@ class _StreetVolunteerState extends State<StreetVolunteer> {
           
         ),
         initialRoute: '/',
-        routes: {'/': (context) => Campaigns()},
-        // routes: {'/': (context) => Dashboard(model: _model,)},
+        
+        routes: {'/': (context) => Dashboard(model: _model,)},
       ),
     );
   }
