@@ -24,7 +24,8 @@ class _StreetVolunteerState extends State<StreetVolunteer> {
           
         ),
         initialRoute: '/',
-        routes: {'/': (context) => Dashboard(model: _model)},
+        
+        routes: {'/': (context) => Dashboard(model: _model,)},
       ),
     );
   }
