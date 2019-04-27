@@ -67,6 +67,16 @@ class _CampaignsState extends State<Campaigns> {
                               padding: EdgeInsets.all(8),
                               child: Text("Initiated by Ayush Shekhar"),
                             ),
+
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(Icons.group),
+                                  Text(" 7 Volunteers")
+                                ],
+                              ),
+                            ),
                             Padding(
                               padding: EdgeInsets.symmetric(
                                   vertical: 8, horizontal: 8),
