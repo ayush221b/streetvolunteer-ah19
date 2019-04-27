@@ -45,7 +45,6 @@ class _SwitcherState extends State<Switcher> {
                   Container(
                     height: header_height,
                   ),
-                  
                 ],
               ),
             ),
