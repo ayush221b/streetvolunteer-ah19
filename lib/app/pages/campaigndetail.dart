@@ -94,7 +94,14 @@ class _CampaignDetailState extends State<CampaignDetail> {
                                   ),
                                 ],
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                                  return ChatPage(
+                                    model: widget.model,
+                                    campaign: widget.campaign,
+                                  );
+                                }));
+                              },
                             ),
                             RaisedButton(
                               elevation: 3,
@@ -115,8 +122,11 @@ class _CampaignDetailState extends State<CampaignDetail> {
                                 ],
                               ),
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-                                  return ActionsPage(model: widget.model,);
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (BuildContext context) {
+                                  return ActionsPage(
+                                    model: widget.model,
+                                  );
                                 }));
                               },
                             ),

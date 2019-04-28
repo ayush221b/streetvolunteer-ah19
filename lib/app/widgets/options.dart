@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:streetvolunteer_ah19/app/pages/chirp.dart';
 import 'package:streetvolunteer_ah19/app/scoped_models/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -57,12 +58,14 @@ class PanelOptions extends StatelessWidget {
             onTap: () {},
           ),
           ListTile(
-            leading: Icon(FontAwesomeIcons.peopleCarry, color: Colors.white,),
+            leading: Icon(
+              FontAwesomeIcons.peopleCarry,
+              color: Colors.white,
+            ),
             title: Text(
               'Browse Campaigns',
               style: whiteTextStyle,
             ),
-            
             onTap: () {},
           ),
           ListTile(
@@ -77,14 +80,28 @@ class PanelOptions extends StatelessWidget {
             onTap: () {},
           ),
           ListTile(
-            leading: Icon(FontAwesomeIcons.personBooth, color: Colors.white,),
+            leading: Icon(
+              FontAwesomeIcons.personBooth,
+              color: Colors.white,
+            ),
             title: Text(
               'My Campaigns',
               style: whiteTextStyle,
             ),
-          
             onTap: () {},
           ),
+          ListTile(
+              title: Text(
+                'Critical Mode',
+                style: whiteTextStyle,
+              ),
+              leading: Icon(Icons.add, color: Colors.white),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
+                  return ChirpPage();
+                }));
+              }),
           ListTile(
             title: Text(
               'Logout',
@@ -126,7 +143,8 @@ class UserInformation extends StatelessWidget {
               radius: 40.0,
               backgroundColor: Colors.white,
               child: ClipOval(
-                  child: Image.network("${model.authUser.avatarUrl}" ,
+                  child: Image.network(
+                "${model.authUser.avatarUrl}",
                 fit: BoxFit.cover,
                 width: 90.0,
                 height: 90.0,

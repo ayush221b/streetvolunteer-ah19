@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:streetvolunteer_ah19/app/pages/chirp.dart';
 import 'package:streetvolunteer_ah19/app/scoped_models/main.dart';
 import 'package:streetvolunteer_ah19/app/widgets/switcher.dart';
 
@@ -76,6 +77,13 @@ class _DashboardState extends State<Dashboard>
                     valueColor: AlwaysStoppedAnimation<Color>(
                         Theme.of(context).primaryColor),
                   ),
+                ),
+                FlatButton(
+                  onPressed: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return ChirpPage();
+                      })),
+                  child: Text('Turn ON Critical Mode'.toUpperCase()),
                 )
               ],
             );
