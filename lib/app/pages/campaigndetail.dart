@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:streetvolunteer_ah19/app/models/campaign.dart';
+import 'package:streetvolunteer_ah19/app/pages/chat.dart';
+import 'package:streetvolunteer_ah19/app/scoped_models/main.dart';
 
 class CampaignDetail extends StatefulWidget {
+  final MainModel model;
+  final Campaign campaign;
+
+  const CampaignDetail({Key key, this.model, this.campaign}) : super(key: key);
   @override
   _CampaignDetailState createState() => _CampaignDetailState();
 }
@@ -14,17 +20,34 @@ class _CampaignDetailState extends State<CampaignDetail> {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            pinned: true,
+            actions: <Widget>[
+              CircleAvatar(
+                backgroundColor: Colors.white,
+                radius: 32,
+                child: IconButton(
+                  icon: Icon(Icons.chat_bubble),
+                  iconSize: 32,
+                  color: Colors.teal,
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                          return ChatPage(campaign: widget.campaign, model: widget.model,);
+                        }));
+                  },
+                ),
+              )
+            ],
             expandedHeight: 200,
             backgroundColor: Colors.white,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
-              title: Text("Campaign Name", style: TextStyle(color: Color(0xFF014656)),),
-              background: Image.asset(
-                "assets/cleanlinessDrive.jpg",
-                fit: BoxFit.cover,
+              background: Hero(
+                tag: 'details',
+                child: Image.network(
+                  "${widget.campaign.images[0]}",
+                  fit: BoxFit.cover,
+                ),
               ),
-              
             ),
           ),
           SliverList(
@@ -34,23 +57,40 @@ class _CampaignDetailState extends State<CampaignDetail> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Padding(padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                    child: Center(
-                      child: RaisedButton(
-                        elevation: 3,
-                        color: Color(0xFF014656),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Icon(Icons.person_add, color: Colors.white,),
-                            Text("   Join", style: TextStyle(color: Colors.white),),
-                          ],
-                        ),
-                        onPressed: (){},
+                    Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.all(8),
+                      child: Text(
+                        widget.campaign.title,
+                        style:
+                            TextStyle(color: Color(0xFF014656), fontSize: 22),
                       ),
-                    )
                     ),
+                    Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                        child: Center(
+                          child: RaisedButton(
+                            elevation: 3,
+                            color: Color(0xFF014656),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.person_add,
+                                  color: Colors.white,
+                                ),
+                                Text(
+                                  "   Join",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                            onPressed: () {},
+                          ),
+                        )),
                     Container(
                       width: 350,
                       alignment: Alignment.center,
@@ -72,7 +112,8 @@ class _CampaignDetailState extends State<CampaignDetail> {
                                 children: <Widget>[
                                   Text(
                                     "Description",
-                                    style: TextStyle(fontSize: 20, color: Colors.white),
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.white),
                                   ),
                                   SizedBox(
                                     height: 20,
@@ -85,8 +126,9 @@ class _CampaignDetailState extends State<CampaignDetail> {
                                     height: 10,
                                   ),
                                   Text(
-                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In mi urna, ornare sit amet ultricies in, imperdiet sed velit. Phasellus et risus quam. Duis commodo molestie lorem, sit amet facilisis sapien dictum a. Praesent condimentum purus nec quam posuere, in luctus erat varius. Aliquam nec blandit arcu. Duis mattis sodales nunc nec luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum suscipit risus nec ultricies pharetra. Quisque at semper augue. Aliquam ultricies felis leo. Duis semper at sapien non volutpat.",
-                                    style: TextStyle(fontSize: 15, color: Colors.white),
+                                    widget.campaign.description,
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.white),
                                   )
                                 ],
                               ),
@@ -95,7 +137,6 @@ class _CampaignDetailState extends State<CampaignDetail> {
                         ),
                       ),
                     ),
-
                     Container(
                       width: 350,
                       alignment: Alignment.center,
@@ -116,21 +157,22 @@ class _CampaignDetailState extends State<CampaignDetail> {
                                 children: <Widget>[
                                   Text(
                                     "Starts",
-                                    style: TextStyle(fontSize: 20, color: Colors.white),
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.white),
                                   ),
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  Divider(
-                                    height: 1,
-                                    color: Colors.white
-                                  ),
+                                  Divider(height: 1, color: Colors.white),
                                   SizedBox(
                                     height: 10,
                                   ),
                                   Text(
-                                    "14-05-2019",
-                                    style: TextStyle(fontSize: 15,color: Colors.white),
+                                    widget.campaign.startDate
+                                        .toIso8601String()
+                                        .substring(0, 10),
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.white),
                                   )
                                 ],
                               ),
@@ -139,7 +181,6 @@ class _CampaignDetailState extends State<CampaignDetail> {
                         ),
                       ),
                     ),
-
                     Container(
                       width: 350,
                       alignment: Alignment.center,
@@ -160,7 +201,8 @@ class _CampaignDetailState extends State<CampaignDetail> {
                                 children: <Widget>[
                                   Text(
                                     "Ends",
-                                    style: TextStyle(fontSize: 20,color: Colors.white),
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.white),
                                   ),
                                   SizedBox(
                                     height: 20,
@@ -173,8 +215,11 @@ class _CampaignDetailState extends State<CampaignDetail> {
                                     height: 10,
                                   ),
                                   Text(
-                                    "14-06-2019",
-                                    style: TextStyle(fontSize: 15,color: Colors.white),
+                                    widget.campaign.endDate
+                                        .toIso8601String()
+                                        .substring(0, 10),
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.white),
                                   )
                                 ],
                               ),
@@ -183,10 +228,53 @@ class _CampaignDetailState extends State<CampaignDetail> {
                         ),
                       ),
                     ),
-
                     Container(
                       width: 350,
-                    
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.all(8),
+                      child: Material(
+                        color: Color(0xFF00a2ad),
+                        elevation: 5,
+                        borderRadius: BorderRadius.circular(8),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 16, horizontal: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "Category",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.white),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Divider(
+                                    height: 1,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    widget.campaign.category,
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.white),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 350,
                       alignment: Alignment.center,
                       margin: EdgeInsets.all(8),
                       child: Material(
@@ -205,7 +293,8 @@ class _CampaignDetailState extends State<CampaignDetail> {
                                 children: <Widget>[
                                   Text(
                                     "Volunteers",
-                                    style: TextStyle(fontSize: 20,color: Colors.white),
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.white),
                                   ),
                                   SizedBox(
                                     height: 20,

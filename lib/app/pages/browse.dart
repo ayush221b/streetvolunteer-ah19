@@ -25,6 +25,7 @@ class _BrowseCampaignsState extends State<BrowseCampaigns> {
             expandedHeight: 250,
             flexibleSpace: FlexibleSpaceBar(
               title: Text('Browse Campaigns'),
+              centerTitle: true,
               background: Hero(
                   tag: 'browse',
                   child: Image.asset(
@@ -38,9 +39,27 @@ class _BrowseCampaignsState extends State<BrowseCampaigns> {
               FutureBuilder(
                 future: widget.model.getCampaigns(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if(snapshot.hasData && snapshot.data != null) {
+                  print(snapshot.data);
+                  if (snapshot.hasData && snapshot.data != null) {
                     return Campaigns(model: widget.model);
-                  }
+                  } else
+                    return Padding(
+                      padding: const EdgeInsets.only(top:32.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text('Loading Campaigns...'),
+                          Container(
+                            margin: EdgeInsets.all(32),
+                            height: 2,
+                            child: LinearProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  Theme.of(context).primaryColor),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
                 },
               ),
             ]),

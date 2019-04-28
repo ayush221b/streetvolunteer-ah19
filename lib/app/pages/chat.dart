@@ -1,13 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:streetvolunteer_ah19/app/models/campaign.dart';
+import 'package:streetvolunteer_ah19/app/models/chat.dart';
 import 'package:streetvolunteer_ah19/app/pages/drawer.dart';
+import 'package:streetvolunteer_ah19/app/scoped_models/main.dart';
 
-class Chat extends StatefulWidget {
+class ChatPage extends StatefulWidget {
+  final Campaign campaign;
+  final MainModel model;
+
+  const ChatPage({Key key, this.campaign, this.model}) : super(key: key);
   @override
-  _ChatState createState() => _ChatState();
+  _ChatPageState createState() => _ChatPageState();
 }
 
-class _ChatState extends State<Chat> {
+class _ChatPageState extends State<ChatPage> {
+  final TextEditingController chatMessageController = TextEditingController();
+  Chat _chat;
+  @override
+  void initState() {
+    getChatForCampaign();
+    super.initState();
+  }
+
+  Future getChatForCampaign() async {
+    Chat chat = await widget.model.getChat(widget.campaign.chatId);
+    setState(() {
+      _chat = chat;
+    });
+  }
+
+  Future sendMessage(Map<String, String> message) async {
+    Chat chat =
+        await widget.model.sendChatMessage(widget.campaign.chatId, message);
+    setState(() {
+      _chat = chat;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,144 +45,100 @@ class _ChatState extends State<Chat> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Campaign Name",
+          widget.campaign.title,
           style: TextStyle(color: Color(0xFF014656)),
         ),
         backgroundColor: Colors.white24,
         elevation: 0,
         iconTheme: IconThemeData(color: Color(0xFF014656)),
       ),
-      body: ChatScreen(),
-    );
-  }
-}
-
-class ChatScreen extends StatefulWidget {
-  @override
-  _ChatScreenState createState() => _ChatScreenState();
-}
-
-class _ChatScreenState extends State<ChatScreen> {
-  final TextEditingController _textController = new TextEditingController();
-
-  final List<ChatMessage> _messages = <ChatMessage>[];
-  void _handleSubmitted(String text) {
-    _textController.clear();
-
-    ChatMessage message = ChatMessage(
-      text: text,
-    );
-
-    setState(() {
-      _messages.insert(0, message);
-    });
-  }
-
-  Widget _textComposer() {
-    return IconTheme(
-      data: IconThemeData(
-        color: Colors.black,
-      ),
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        child: Row(
-          children: <Widget>[
-            Flexible(
-              child: TextField(
-                decoration: InputDecoration(
-                    hintText: "Send Message",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(50))),
-                controller: _textController,
-                onSubmitted: _handleSubmitted,
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-              child: CircleAvatar(
-                backgroundColor: Color(0xFF014656),
-                radius: 25,
-                child: Center(
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.send,
-                      color: Colors.white,
-                    ),
-                    onPressed: () => _handleSubmitted(_textController.text),
+      body: _chat == null
+          ? Center(child: Text('Loading Messages...'))
+          : Column(
+              children: <Widget>[
+                Flexible(
+                  child: ListView.builder(
+                    reverse: true,
+                    itemCount: _chat.messages.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      Map<String, String> message = _chat.messages[index];
+                      return Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Material(
+                          elevation: 0,
+                          child: Container(
+                              child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: message['userid'] !=
+                                    widget.model.authUser.userid
+                                ? MainAxisAlignment.start
+                                : MainAxisAlignment.end,
+                            children: <Widget>[
+                              CircleAvatar(
+                                child: Text(message['userid'][0].toUpperCase(), style: TextStyle(color: Colors.white),),
+                                backgroundColor: Theme.of(context).primaryColor,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(message['userid'],
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                  Padding(
+                                    padding: EdgeInsets.only(bottom: 8.0),
+                                  ),
+                                  Text(message['message']),
+                                ],
+                              )
+                            ],
+                          )),
+                        ),
+                      );
+                    },
                   ),
                 ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Flexible(
-          child: ListView.builder(
-            padding: EdgeInsets.all(8),
-            reverse: true,
-            itemBuilder: (_, int index) => _messages[index],
-            itemCount: _messages.length,
-          ),
-        ),
-
-        //This container places the send message thing in the bottom
-        Container(
-          color: Colors.white24,
-          padding: EdgeInsets.only(bottom: 8),
-          child: _textComposer(),
-        )
-      ],
-    );
-  }
-}
-
-const String _name = "Pratik";
-
-class ChatMessage extends StatelessWidget {
-  final String text;
-  ChatMessage({this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(right: 16),
-            child: CircleAvatar(
-              backgroundColor: Color(0xFF014656),
-              child: Center(
-                  child: Text(
-                _name[0],
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              )),
+                Container(
+                    height: 100.0,
+                    padding: EdgeInsets.all(8.0),
+                    child: Row(
+                      children: <Widget>[
+                        Flexible(
+                          child: TextField(
+                            controller: chatMessageController,
+                            decoration: InputDecoration(
+                                hintText: 'Send a message',
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30))),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: GestureDetector(
+                              onTap: () async {
+                                Map<String, String> message = {
+                                  'userid': widget.model.authUser.userid,
+                                  'message': chatMessageController.text
+                                };
+                                await sendMessage(message);
+                                chatMessageController.clear();
+                              },
+                              child: CircleAvatar(
+                                radius: 26,
+                                backgroundColor: Theme.of(context).primaryColor,
+                                child: Icon(
+                                  Icons.send,
+                                  color: Colors.white,
+                                ),
+                              )),
+                        )
+                      ],
+                    ))
+              ],
             ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                _name,
-                style: Theme.of(context).textTheme.subhead,
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 5),
-                child: Text(text),
-              )
-            ],
-          )
-        ],
-      ),
     );
   }
 }

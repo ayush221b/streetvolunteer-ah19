@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:streetvolunteer_ah19/app/models/campaign.dart';
+import 'package:streetvolunteer_ah19/app/models/chat.dart';
 import 'package:streetvolunteer_ah19/app/models/user.dart';
+import 'package:geolocator/geolocator.dart';
 
 class ConnectedCampaignModel extends Model {
   bool _isLoading;
@@ -17,27 +19,101 @@ class ConnectedCampaignModel extends Model {
   List<Campaign> get campaignsList {
     return _campaignsList;
   }
+
+  Future<String> getLocationName(Map<String, double> location) async {
+    List<Placemark> placemark = await Geolocator()
+        .placemarkFromCoordinates(location['latitude'], location['longitude']);
+    print(placemark[0].locality);
+    return placemark[0].locality;
+  }
+
+  Future<Chat> sendChatMessage(String id, Map<String, String> message) async {
+    print('Entered Chat Message');
+    try {
+      String url = 'https://streetv.eu-gb.mybluemix.net/chat/sendMessage';
+      var headers = {'Content-Type': 'application/json'};
+      var body = {
+        'id': id,
+        'message':message
+      };
+
+      var response =
+          await http.post(url, headers: headers, body: json.encode(body));
+
+      var responseData = json.decode(response.body);
+      print(responseData);
+      List<Map<String, String>> messages = [];
+      responseData['messages'].forEach((message) {
+        messages
+            .add({"message": message['message'], "userid": message['userid']});
+      });
+      Map<String, dynamic> chatMap = {
+        'id': responseData['id'],
+        'campaignId': responseData['campaignId'],
+        'messages': messages.reversed.toList()
+      };
+      Chat chat = Chat.fromMap(chatMap);
+      return chat;
+    } catch (e) {
+      print(e);
+      notifyListeners();
+      return null;
+    }
+  }
+
+  Future<Chat> getChat(String id) async {
+    print('Entered Chat');
+    try {
+      String url = 'https://streetv.eu-gb.mybluemix.net/chat/getChat';
+      var headers = {'Content-Type': 'application/json'};
+      var body = {
+        'id': id,
+      };
+
+      var response =
+          await http.post(url, headers: headers, body: json.encode(body));
+
+      var responseData = json.decode(response.body);
+      print(responseData);
+      List<Map<String, String>> messages = [];
+      responseData['messages'].forEach((message) {
+        messages
+            .add({"message": message['message'], "userid": message['userid']});
+      });
+      Map<String, dynamic> chatMap = {
+        'id': responseData['id'],
+        'campaignId': responseData['campaignId'],
+        'messages': messages.reversed.toList()
+      };
+      Chat chat = Chat.fromMap(chatMap);
+      return chat;
+    } catch (e) {
+      print(e);
+      notifyListeners();
+      return null;
+    }
+  }
 }
 
 class CampaignsModel extends ConnectedCampaignModel {
   Future<List<Campaign>> getCampaigns() async {
     List<Campaign> campaigns = [];
+    print('Entered Campaigns');
     try {
       String url = 'https://streetv.eu-gb.mybluemix.net/campaign/getnearby';
       var headers = {'Content-Type': 'application/json'};
       var body = {
-        'category': _authenticatedUser.interests[0],
-        'location': {
-          "latitude": _authenticatedUser.location['latitude'],
-          "longitude": _authenticatedUser.location['latitude']
-        }
+        'category': "Disaster Recovery",
+        'location': {"latitude": 13.0500, "longitude": 80.2121}
       };
 
       var response =
           await http.post(url, headers: headers, body: json.encode(body));
 
       var responseData = json.decode(response.body)['campaigns'];
-      responseData.forEach((campaignMap) {
+      print(responseData);
+      for (int i = 0; i < responseData.length; i++) {
+        var campaignMap = responseData[i];
         Map<String, double> location = {
           'latitude': campaignMap['location']['latitude'],
           'longitude': campaignMap['location']['longitude'],
@@ -58,11 +134,14 @@ class CampaignsModel extends ConnectedCampaignModel {
         campaignMap['images'].forEach((image) {
           images.add(image);
         });
+        String locationName = await getLocationName(location);
+        print(campaignMap['category']);
         Map<String, dynamic> campaignCreate = {
           'id': campaignMap['id'],
           'title': campaignMap['title'],
           'description': campaignMap['description'],
-          'location': campaignMap['location'],
+          'location': location,
+          'locationName': locationName,
           'status': campaignMap['status'],
           'creatorId': campaignMap['creatorId'],
           'volunteers': volunteers,
@@ -75,10 +154,11 @@ class CampaignsModel extends ConnectedCampaignModel {
           'actions': actions,
           'chatId': campaignMap['chatId'],
           'comments': comments,
-          'images': images
+          'images': images,
+          'category': campaignMap['category']
         };
         campaigns.add(Campaign.fromMap(campaignCreate));
-      });
+      }
       _campaignsList = campaigns;
       notifyListeners();
       return campaigns;

@@ -16,39 +16,54 @@ Comments - List<String>
 import 'package:meta/meta.dart';
 
 class Campaign {
-  @required String id;
-  @required String title;
-  @required String description;
-  @required String status;
-  @required String category;
-  @required String creatorId;
-  @required List<String> volunteers;
-  @required Map<String, double> location;
-  @required DateTime startDate;
-  @required DateTime endDate;
-  @required List<String> actions;
-  @required String chatId;
-  @required List<String> comments;
-  @required List<String> images;
+  @required
+  String id;
+  @required
+  String title;
+  @required
+  String description;
+  @required
+  String status;
+  @required
+  String category;
+  @required
+  String creatorId;
+  @required
+  List<String> volunteers;
+  @required
+  Map<String, double> location;
+  @required
+  DateTime startDate;
+  @required
+  DateTime endDate;
+  @required
+  List<String> actions;
+  @required
+  String chatId;
+  @required
+  List<String> comments;
+  @required
+  List<String> images;
+  String locationName;
 
   Campaign(
-    this.id,
-    this.title,
-    this.description,
-    this.status,
-    this.creatorId,
-    this.volunteers,
-    this.location,
-    this.startDate,
-    this.endDate,
-    this.actions,
-    this.chatId,
-    this.comments,
-    this.images
-  );
+      this.id,
+      this.title,
+      this.description,
+      this.status,
+      this.creatorId,
+      this.volunteers,
+      this.location,
+      this.startDate,
+      this.endDate,
+      this.actions,
+      this.chatId,
+      this.comments,
+      this.images,
+      this.locationName,
+      this.category);
 
   Campaign.fromMap(Map<String, dynamic> map) {
-
     id = map['id'];
     title = map['title'];
     description = map['description'];
@@ -62,6 +77,8 @@ class Campaign {
     chatId = map['chatId'];
     comments = map['comments'];
     images = map['images'];
+    locationName = map['locationName'];
+    category = map['category'];
   }
 
   Map<String, dynamic> toMap() {
@@ -79,6 +96,8 @@ class Campaign {
     map['chatId'] = chatId;
     map['comments'] = comments;
     map['images'] = images;
+    map['locationName'] = locationName;
+    map['category'] = category;
     return map;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:streetvolunteer_ah19/app/models/campaign.dart';
+import 'package:streetvolunteer_ah19/app/pages/campaigndetail.dart';
 import 'package:streetvolunteer_ah19/app/scoped_models/main.dart';
 
 class Campaigns extends StatefulWidget {
@@ -13,34 +14,47 @@ class Campaigns extends StatefulWidget {
 class _CampaignsState extends State<Campaigns> {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: 
-        widget.model.campaignsList.map((Campaign campaign) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
+    return Column(
+      children: widget.model.campaignsList.map((Campaign campaign) {
+        print(campaign);
+        return Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (BuildContext context) {
+                return CampaignDetail(
+                  model: widget.model,
+                  campaign: campaign,
+                );
+              }));
+            },
             child: Material(
               elevation: 5,
+              textStyle: TextStyle(color: Colors.white),
               borderRadius: BorderRadius.circular(7),
               child: Container(
                   height: 250,
-                  width: 200,
-                  // margin: EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.yellow,
-                  ),
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.teal),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Flexible(
                         flex: 2,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(8),
-                                  bottomLeft: Radius.circular(8)),
-                              color: Colors.red),
+                        child: Hero(
+                          tag: 'details',
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(8),
+                                    bottomLeft: Radius.circular(8)),
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image:
+                                        NetworkImage('${campaign.images[0]}'))),
+                          ),
                         ),
                       ),
                       Flexible(
@@ -54,7 +68,7 @@ class _CampaignsState extends State<Campaigns> {
                                 Padding(
                                   padding: EdgeInsets.fromLTRB(8, 16, 8, 8),
                                   child: Text(
-                                    "Lets Clean Chennai boiii ",
+                                    "${campaign.title}",
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ),
@@ -66,47 +80,63 @@ class _CampaignsState extends State<Campaigns> {
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.all(8),
-                                  child: Text("Initiated by Ayush Shekhar"),
+                                  child: Text(
+                                      "Initiated by ${campaign.creatorId}"),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.symmetric(
                                       vertical: 8, horizontal: 8),
                                   child: Row(
                                     children: <Widget>[
-                                      Icon(Icons.group),
-                                      Text(" 7 Volunteers")
+                                      Icon(
+                                        Icons.group,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                          " ${campaign.volunteers.length} Volunteers")
                                     ],
                                   ),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.symmetric(
                                       vertical: 8, horizontal: 8),
-                                  child: Text("Starts on 14-06-2018"),
+                                  child: Text(
+                                      "Starts on ${campaign.startDate.toIso8601String().substring(0, 10)}"),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.symmetric(
                                       vertical: 8, horizontal: 8),
-                                  child: Text("Ends on 14-06-2019"),
+                                  child: Text(
+                                      "Ends on ${campaign.endDate.toIso8601String().substring(0, 10)}"),
                                 ),
-                                Padding(
-                                    padding: EdgeInsets.all(8),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Container(
-                                          child: Row(
-                                            children: <Widget>[
-                                              Icon(Icons.pin_drop),
-                                              Text(" Chennai, TN"),
-                                            ],
-                                          ),
-                                        ),
-                                        Icon(
-                                          Icons.arrow_forward,
-                                        )
-                                      ],
-                                    )),
+                                LayoutBuilder(
+                                  builder: (BuildContext context,
+                                      BoxConstraints constraints) {
+                                    return Padding(
+                                        padding: EdgeInsets.all(8),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Container(
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Icon(
+                                                    Icons.pin_drop,
+                                                    color: Colors.white,
+                                                  ),
+                                                  Text(campaign.locationName),
+                                                ],
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.arrow_forward,
+                                              color: Colors.white,
+                                            )
+                                          ],
+                                        ));
+                                  },
+                                ),
                               ],
                             )
                           ],
@@ -115,9 +145,9 @@ class _CampaignsState extends State<Campaigns> {
                     ],
                   )),
             ),
-          );
-        }).toList()
-      ,
+          ),
+        );
+      }).toList(),
     );
   }
 }
