@@ -25,6 +25,9 @@ apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
+    packagingOptions {
+         exclude 'META-INF/chirpsdk_release.kotlin_module'
+    }
     compileSdkVersion 28
 
     lintOptions {

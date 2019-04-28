@@ -25,6 +25,7 @@ class _StreetVolunteerState extends State<StreetVolunteer> {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: Color(0xFF014656),
+          hintColor: Colors.white
         ),
         initialRoute: '/',
         routes: {

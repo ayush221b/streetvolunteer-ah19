@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:streetvolunteer_ah19/app/models/campaign.dart';
+import 'package:streetvolunteer_ah19/app/pages/actions.dart';
 import 'package:streetvolunteer_ah19/app/pages/chat.dart';
 import 'package:streetvolunteer_ah19/app/scoped_models/main.dart';
 
@@ -31,8 +32,11 @@ class _CampaignDetailState extends State<CampaignDetail> {
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (BuildContext context) {
-                          return ChatPage(campaign: widget.campaign, model: widget.model,);
-                        }));
+                      return ChatPage(
+                        campaign: widget.campaign,
+                        model: widget.model,
+                      );
+                    }));
                   },
                 ),
               )
@@ -69,27 +73,54 @@ class _CampaignDetailState extends State<CampaignDetail> {
                     Padding(
                         padding:
                             EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                        child: Center(
-                          child: RaisedButton(
-                            elevation: 3,
-                            color: Color(0xFF014656),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30)),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.person_add,
-                                  color: Colors.white,
-                                ),
-                                Text(
-                                  "   Join",
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ],
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            RaisedButton(
+                              elevation: 3,
+                              color: Color(0xFF014656),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.person_add,
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    "   Join",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                              onPressed: () {},
                             ),
-                            onPressed: () {},
-                          ),
+                            RaisedButton(
+                              elevation: 3,
+                              color: Color(0xFF014656),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.arrow_right,
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    "   Actions",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                                  return ActionsPage(model: widget.model,);
+                                }));
+                              },
+                            ),
+                          ],
                         )),
                     Container(
                       width: 350,

@@ -5,6 +5,8 @@ import 'package:streetvolunteer_ah19/app/models/chat.dart';
 import 'package:streetvolunteer_ah19/app/pages/drawer.dart';
 import 'package:streetvolunteer_ah19/app/scoped_models/main.dart';
 
+import 'chirp.dart';
+
 class ChatPage extends StatefulWidget {
   final Campaign campaign;
   final MainModel model;
@@ -41,7 +43,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: draw,
+      drawer: DrawerMenu(),
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -50,6 +52,15 @@ class _ChatPageState extends State<ChatPage> {
         ),
         backgroundColor: Colors.white24,
         elevation: 0,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add_alert, color: Color(0xFF8b0000),),
+            onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+              return ChirpPage();
+            }));
+          },)
+        ],
         iconTheme: IconThemeData(color: Color(0xFF014656)),
       ),
       body: _chat == null

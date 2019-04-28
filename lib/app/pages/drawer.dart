@@ -20,9 +20,10 @@ class _DrawerMenuState extends State<DrawerMenu> {
             accountEmail: Text(''),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
+              child: Image.network(widget.model.authUser.avatarUrl),
             ),
             accountName: Text(
-              "Pratik Singhal",
+              widget.model.authUser.name,
               style: TextStyle(fontSize: 20),
             ),
           ),
