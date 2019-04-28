@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:streetvolunteer_ah19/app/pages/browse.dart';
 import 'package:streetvolunteer_ah19/app/pages/dashboard.dart';
 import 'package:streetvolunteer_ah19/app/scoped_models/main.dart';
 
@@ -9,6 +10,11 @@ class StreetVolunteer extends StatefulWidget {
 }
 
 class _StreetVolunteerState extends State<StreetVolunteer> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   final MainModel _model = MainModel();
   @override
   Widget build(BuildContext context) {
@@ -18,13 +24,17 @@ class _StreetVolunteerState extends State<StreetVolunteer> {
         title: 'StreetVolunteer',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-
-          primaryColor: Color(0xFF014656), 
-
-          
+          primaryColor: Color(0xFF014656),
         ),
         initialRoute: '/',
-        routes: {'/': (context) => Dashboard(model: _model,)},
+        routes: {
+          '/': (context) => Dashboard(
+                model: _model,
+              ),
+          '/browse': (context) => BrowseCampaigns(
+                model: _model,
+              )
+        },
       ),
     );
   }

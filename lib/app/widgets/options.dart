@@ -126,7 +126,7 @@ class UserInformation extends StatelessWidget {
               radius: 40.0,
               backgroundColor: Colors.white,
               child: ClipOval(
-                  child: Image.network("http://images2.fanpop.com/image/answers/120000/120077_1274658543457_371_432.jpg" ,
+                  child: Image.network("${model.authUser.avatarUrl}" ,
                 fit: BoxFit.cover,
                 width: 90.0,
                 height: 90.0,

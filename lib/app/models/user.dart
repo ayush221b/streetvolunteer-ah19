@@ -15,7 +15,7 @@ class User {
   int age;
   Map<String, double> location;
   List<String> interests;
-  Map<String, List<String>> campaigns;
+  List<String> campaigns;
   int svPoints;
   String avatarUrl;
 

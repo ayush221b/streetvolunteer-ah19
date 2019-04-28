@@ -43,94 +43,101 @@ class _SwitcherState extends State<Switcher> {
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(16.0),
                   topRight: Radius.circular(16.0)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    height: header_height,
-                  ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      height: header_height,
+                    ),
 
-                  Container(
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: 25),
-                            ),
-                            Text("Hello,",
-                                style: TextStyle(
-                                    fontSize: 30,
-                                    fontStyle: FontStyle.normal,
-                                    fontWeight: FontWeight.w300)),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: 25),
-                            ),
-                            Text(
-                              "Ayush Shekhar",
-                              style: TextStyle(
-                                fontSize: 35,
+                    Container(
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(left: 25),
                               ),
-                            ),
-                          ],
+                              Text("Hello,",
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      fontStyle: FontStyle.normal,
+                                      fontWeight: FontWeight.w300)),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(left: 25),
+                              ),
+                              Text(
+                                "${widget.model.authUser.name}",
+                                style: TextStyle(
+                                  fontSize: 35,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Padding(
+                      padding: EdgeInsetsDirectional.only(top: 15),
+                    ),
+
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new DashboardCard(
+                            tapFunction: tapFunction,
+                            imagePath: imagePath,
+                            cardText: cardText),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
                         ),
+                        DashboardCard(
+                            tapFunction: tapFunction,
+                            imagePath: 'assets/upcoming.jpg',
+                            cardText: 'Upcoming Campaigns'),
                       ],
                     ),
-                  ),
 
-                  Padding(
-                    padding: EdgeInsetsDirectional.only(top: 15),
-                  ),
+                    SizedBox(
+                      height: 40,
+                    ),
 
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                  ),
-                  
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      new DashboardCard(
-                          tapFunction: tapFunction,
-                          imagePath: imagePath,
-                          cardText: cardText),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                      ),
-                      DashboardCard(
-                          tapFunction: tapFunction,
-                          imagePath: 'assets/upcoming.jpg',
-                          cardText: 'Upcoming Campaigns'),
-                    ],
-                  ),
-
-                  SizedBox(
-                    height: 40,
-                  ),
-
-                  //Second Row of Cards
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      DashboardCard(
-                          tapFunction: tapFunction,
-                          imagePath: 'assets/complete.jpg',
-                          cardText: 'Completed Campaigns'),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                      ),
-                      DashboardCard(
-                          tapFunction: tapFunction,
-                          imagePath: 'assets/browse.jpg',
-                          cardText: 'Browse Campaigns'),
-                    ],
-                  )
-                ],
+                    //Second Row of Cards
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        DashboardCard(
+                            tapFunction: tapFunction,
+                            imagePath: 'assets/complete.jpg',
+                            cardText: 'Completed Campaigns'),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                        ),
+                        Hero(
+                          tag: 'browse',
+                          child: DashboardCard(
+                              tapFunction: (){
+                                Navigator.pushNamed(context, '/browse');
+                              },
+                              imagePath: 'assets/browse.jpg',
+                              cardText: 'Browse Campaigns'),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           )
@@ -172,27 +179,19 @@ class DashboardCard extends StatelessWidget {
               Stack(
                 children: <Widget>[
                   Container(
-                      height: 160,
-                      width: 160,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(7),
-                        image: DecorationImage(
-                          image: AssetImage(imagePath),
-                          fit: BoxFit.cover
-                          
-                        )
-                      ),
-                      
-                          ),
-                  Container(
-                    
                     height: 160,
                     width: 160,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      color: Colors.black38
-                    ),
-
+                        borderRadius: BorderRadius.circular(7),
+                        image: DecorationImage(
+                            image: AssetImage(imagePath), fit: BoxFit.cover)),
+                  ),
+                  Container(
+                    height: 160,
+                    width: 160,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7),
+                        color: Colors.black38),
                   ),
                   Container(
                     height: 160,

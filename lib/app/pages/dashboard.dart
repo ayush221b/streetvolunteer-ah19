@@ -59,7 +59,28 @@ class _DashboardState extends State<Dashboard>
         onPressed: () {},
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      body: Switcher(widget.model, controller: controller),
+      body: FutureBuilder(
+        future: widget.model.getUser(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData && snapshot.data != null) {
+            return Switcher(widget.model, controller: controller);
+          } else
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text('Loading User...'),
+                Container(
+                  margin: EdgeInsets.all(32),
+                  height: 2,
+                  child: LinearProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                        Theme.of(context).primaryColor),
+                  ),
+                )
+              ],
+            );
+        },
+      ),
     );
   }
 }

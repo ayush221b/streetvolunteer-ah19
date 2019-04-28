@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:streetvolunteer_ah19/app/models/campaign.dart';
+import 'package:streetvolunteer_ah19/app/scoped_models/main.dart';
 
 class Campaigns extends StatefulWidget {
+  final MainModel model;
+
+  const Campaigns({Key key, this.model}) : super(key: key);
   @override
   _CampaignsState createState() => _CampaignsState();
 }
@@ -8,12 +13,10 @@ class Campaigns extends StatefulWidget {
 class _CampaignsState extends State<Campaigns> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.builder(
-        // padding: EdgeInsets.all(8),
-
-        itemCount: 5,
-        itemBuilder: (BuildContext context, int index) {
+    return ListView(
+      scrollDirection: Axis.vertical,
+      children: 
+        widget.model.campaignsList.map((Campaign campaign) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Material(
@@ -58,53 +61,52 @@ class _CampaignsState extends State<Campaigns> {
                                 // Divider(),
                               ],
                             ),
-                            
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Padding(
-                              padding: EdgeInsets.all(8),
-                              child: Text("Initiated by Ayush Shekhar"),
-                            ),
-
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                              child: Row(
-                                children: <Widget>[
-                                  Icon(Icons.group),
-                                  Text(" 7 Volunteers")
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 8),
-                              child: Text("Starts on 14-06-2018"),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 8),
-                              child: Text("Ends on 14-06-2019"),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.all(8),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Container(
-                                      child: Row(
-                                        children: <Widget>[
-                                          Icon(Icons.pin_drop),
-                                          Text(" Chennai, TN"),
-                                        ],
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.arrow_forward,
-                                    )
-                                  ],
-                                )),
+                                  padding: EdgeInsets.all(8),
+                                  child: Text("Initiated by Ayush Shekhar"),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 8),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Icon(Icons.group),
+                                      Text(" 7 Volunteers")
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 8),
+                                  child: Text("Starts on 14-06-2018"),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 8),
+                                  child: Text("Ends on 14-06-2019"),
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Container(
+                                          child: Row(
+                                            children: <Widget>[
+                                              Icon(Icons.pin_drop),
+                                              Text(" Chennai, TN"),
+                                            ],
+                                          ),
+                                        ),
+                                        Icon(
+                                          Icons.arrow_forward,
+                                        )
+                                      ],
+                                    )),
                               ],
                             )
                           ],
@@ -114,8 +116,8 @@ class _CampaignsState extends State<Campaigns> {
                   )),
             ),
           );
-        },
-      ),
+        }).toList()
+      ,
     );
   }
 }
